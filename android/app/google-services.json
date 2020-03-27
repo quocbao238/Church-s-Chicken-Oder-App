@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "539418212769",
+    "firebase_url": "https://popeyes-7cf40.firebaseio.com",
+    "project_id": "popeyes-7cf40",
+    "storage_bucket": "popeyes-7cf40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539418212769:android:e180c57087c5a31586f3e0",
+        "android_client_info": {
+          "package_name": "com.example.flutter_bloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539418212769-d3ebj0amijmu87ndd3lp0tt4t3l6maq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_bloc",
+            "certificate_hash": "70f3f9a4e157427eb2a2dba0e6418d2a02c0c337"
+          }
+        },
+        {
+          "client_id": "539418212769-vvho0ollr9pik7b5nae2t3i4s2t71h3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmR5h0FeiIdDwDoINVrhCAepFlXFXb1A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539418212769-vvho0ollr9pik7b5nae2t3i4s2t71h3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
