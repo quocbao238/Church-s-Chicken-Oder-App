@@ -5,17 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
 
 class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
-  UserRepository userRepository;
+  // UserRepository userRepository;
 
-  AuthBloc({@required UserRepository userRepository}) {
-    this.userRepository = userRepository;
-  }
+  // AuthBloc({@required UserRepository userRepository}) {
+  //   this.userRepository = userRepository;
+  // }
 
   @override
   AuthBlocState get initialState => AuthBlocInitial();
@@ -24,10 +23,10 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   Stream<AuthBlocState> mapEventToState(AuthBlocEvent event) async* {
     if (event is AppStartedEvent) {
       try {
-        var isSignedIn = await userRepository.isSignedIn();
+        var isSignedIn = await event.userRepository.isSignedIn();
         if (isSignedIn) {
-          firebaseUser = await userRepository.getCurrentUser();
-          yield AuthenticatedState();
+          var user = await event.userRepository.getCurrentUser();
+          yield AuthenticatedState(user: user);
         } else {
           yield UnauthenticatedState();
         }

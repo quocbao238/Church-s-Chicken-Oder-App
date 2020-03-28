@@ -9,13 +9,9 @@ class AuthBlocInitial extends AuthBlocState {
   List<Object> get props => [];
 }
 
-
 class AuthenticatedState extends AuthBlocState {
-
-  // FirebaseUser user;
-
-  // AuthenticatedState({this.user});
-
+  FirebaseUser user;
+  AuthenticatedState({this.user});
   @override
   List<Object> get props => null;
 }

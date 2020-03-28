@@ -2,10 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/login_bloc/login_bloc.dart';
+import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:flutter_blocs/ui/pages/signup_pages/signup_page.dart';
 
 class LoginPageParent extends StatefulWidget {
+  UserRepository userRepository;
+  LoginPageParent({this.userRepository});
+
   @override
   _LoginPageParentState createState() => _LoginPageParentState();
 }
@@ -33,31 +37,6 @@ class _LoginPageParentState extends State<LoginPageParent> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(5.0),
-                      // child: BlocListener<LoginBloc, LoginState>(
-                      //   listener: (context, state) {
-                      //     if (state is LoginSuccessState) {
-                      //       navigateToHomeScreen(context, state.user);
-                      //     }
-                      //   },
-                      //   child: BlocBuilder<LoginBloc, LoginState>(
-                      //     builder: (context, state) {
-                      //       if (state is LoginInitial) {
-                      //         return buildInitialUi();
-                      //       } else if (state is LoginLoadingState) {
-                      //         return buildLoadingUi();
-                      //       } else if (state is LoginFailState) {
-                      //         return buildFailureUi(state.message);
-                      //       } else if (state is LoginSuccessState) {
-                      //         emailCntrlr.text = "";
-                      //         passCntrlr.text = "";
-                      //         return Container();
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
-                    ),
                     Container(
                       padding: EdgeInsets.all(5.0),
                       child: TextField(
@@ -97,12 +76,12 @@ class _LoginPageParentState extends State<LoginPageParent> {
                             child: Text("Login"),
                             textColor: Colors.white,
                             onPressed: () {
-                              // loginBloc.add(
-                              //   LoginButtonPressed(
-                              //     email: emailCntrlr.text,
-                              //     password: passCntrlr.text,
-                              //   ),
-                              // );
+                              BlocProvider.of<LoginBloc>(context).add(
+                                LoginButtonPressed(
+                                  email: emailCntrlr.text.trim(),
+                                  password: passCntrlr.text.trim(),
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -170,9 +149,13 @@ class _LoginPageParentState extends State<LoginPageParent> {
   }
 
   void navigateToSignUpScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return SignUpPageParent();
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => SignUpPageParent(
+                userRepository: widget.userRepository,
+              )),
+              
+    );
   }
   //     ),
   //   ),

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blocs/config/configapp.dart';
 import 'error_codes.dart';
 
 class UserRepository {
@@ -12,7 +11,7 @@ class UserRepository {
 
   // sign up with email
   Future<FirebaseUser> signUpUserWithEmailPass(
-      String email, String pass) async {
+  String email, String pass) async {
     try {
       var authResult = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,

@@ -2,15 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/home_bloc/home_bloc.dart';
-import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/pages/signup_pages/signup_page.dart';
 
 class HomePageParent extends StatefulWidget {
-  // FirebaseUser user;
-  // UserRepository userRepository;
-
-  // HomePageParent({@required this.user, @required this.userRepository});
+  FirebaseUser user;
+  UserRepository userRepository;
+  HomePageParent({@required this.user, @required this.userRepository});
 
   @override
   _HomePageParentState createState() => _HomePageParentState();
@@ -24,11 +22,11 @@ class _HomePageParentState extends State<HomePageParent> {
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is LogOutSuccessState) {
-            navigateToSignUpPage(context);
+            // navigateToSignUpPage(context);
           } else if (state is HomeInitial) {
-            return Container();
+            // return Container();
           } else if (state is LogOutSuccessState) {
-            return Container();
+            // return Container();
           }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
@@ -64,7 +62,7 @@ class _HomePageParentState extends State<HomePageParent> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Text(firebaseUser.uid),
+              child: Text(widget.user.uid),
             ),
           ],
         ),
