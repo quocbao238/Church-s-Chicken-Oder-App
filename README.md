@@ -1,6 +1,23 @@
-# flutter_bloc
+## PopeyesOder 
+* PopeyesOder Oder Popeyes App help people oder fried chicken from Popeyes
 
-A new Flutter project.
+#### Feature
+This source code support to do learn Flutter ,using images taken from Popeyes.vn
+I have developed this app all by myself and I would be happy to share the APK of the app for testing purposes.
+
+#### Prequisites
+-   firebase_auth
+-   flutter_bloc && meta
+-   
+
+    - 
+
+### Contact
+If you have any copyright issues please contact us via email: baobondev@gmail.com
+
+### Documenttation source
+- https://github.com/newajthevillager/FirebaseUserAuthentication---BLoC
+
 
 ## Getting Started
 
