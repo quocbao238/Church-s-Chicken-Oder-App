@@ -20,6 +20,28 @@ class _LoginPageParentState extends State<LoginPageParent> {
   TextEditingController controllerPassword = TextEditingController();
   GlobalKey loginGlobalKey = GlobalKey();
 
+  Future<bool> _onWillPop() async {
+    showToast(msg: "On backpress");
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,7 +49,8 @@ class _LoginPageParentState extends State<LoginPageParent> {
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            Navigator.of(context)
+                .pushReplacement(new MaterialPageRoute(builder: (context) {
               return HomePageParent(
                   user: state.user, userRepository: widget.userRepository);
             }));
@@ -47,7 +70,6 @@ class _LoginPageParentState extends State<LoginPageParent> {
             key: loginGlobalKey,
             body: Stack(
               children: <Widget>[
-                state is LoginLoadingState ? LoadingWidget() : SizedBox(),
                 SafeArea(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -120,6 +142,7 @@ class _LoginPageParentState extends State<LoginPageParent> {
                 ),
 
                 // LoadingWidget(),
+                state is LoginLoadingState ? LoadingWidget() : SizedBox(),
               ],
             ),
           ),

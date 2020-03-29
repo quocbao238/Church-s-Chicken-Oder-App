@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import '../../../main.dart';
+import '../../custom_widget/showToast.dart';
 
 class HomePageParent extends StatefulWidget {
   final FirebaseUser user;
@@ -15,6 +16,28 @@ class HomePageParent extends StatefulWidget {
 }
 
 class _HomePageParentState extends State<HomePageParent> {
+  Future<bool> _onWillPop() async {
+    showToast(msg: "On backpress");
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -34,32 +57,35 @@ class _HomePageParentState extends State<HomePageParent> {
     );
   }
 
-  Scaffold pageView(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("email"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.close,
-              color: Colors.white,
+  WillPopScope pageView(BuildContext context) {
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text("email"),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                BlocProvider.of<HomeBloc>(context).add(LogOutEvent());
+              },
             ),
-            onPressed: () {
-              BlocProvider.of<HomeBloc>(context).add(LogOutEvent());
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            child: Text(widget.user.uid),
-          ),
-        ],
+          ],
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child: Text(widget.user.uid),
+            ),
+          ],
+        ),
       ),
     );
   }

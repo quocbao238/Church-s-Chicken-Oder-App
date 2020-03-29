@@ -63,7 +63,7 @@ class _AppState extends State<App> {
               );
             } else if (state is UnauthenticatedState) {
               debugPrint("UnauthenticatedState");
-              return LoginPageParent(
+              return IntroPage(
                 userRepository: userRepository,
               );
             }

@@ -1,6 +1,6 @@
 ## Church's Chicken App
 
-Church's Chicken App help people oder fried chicken from Popeyes
+Church's Chicken App help people oder fried chicken from Church's Chicken
 
 #### Feature
 

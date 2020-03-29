@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../repository/user_repository.dart';
+import '../login_pages/login_page.dart';
 
 class IntroPage extends StatefulWidget {
   final UserRepository userRepository;
@@ -128,20 +129,30 @@ class _IntroPageState extends State<IntroPage> {
             ),
 
             //Button
-            Container(
-              width: getWidth * 0.4,
-              height: getHeight * 0.1,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.amber, width: 3),
-                  borderRadius: BorderRadius.circular(radius / 2)),
-              child: Center(
-                child: Text(
-                  btnSilder1,
-                  style: GoogleFonts.bitter(
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold)),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                     MaterialPageRoute(builder: (BuildContext context) {
+                  return LoginPageParent(
+                    userRepository: widget.userRepository,
+                  );
+                }));
+              },
+              child: Container(
+                width: getWidth * 0.4,
+                height: getHeight * 0.1,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.amber, width: 3),
+                    borderRadius: BorderRadius.circular(radius / 2)),
+                child: Center(
+                  child: Text(
+                    btnSilder1,
+                    style: GoogleFonts.bitter(
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold)),
+                  ),
                 ),
               ),
             )
@@ -304,7 +315,7 @@ class _IntroPageState extends State<IntroPage> {
 
             //Button
             Container(
-              margin: EdgeInsets.only(top: getHeight*0.05),
+              margin: EdgeInsets.only(top: getHeight * 0.05),
               width: getWidth * 0.8,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
@@ -394,7 +405,7 @@ class _IntroPageState extends State<IntroPage> {
 
             //Button
             Container(
-              margin: EdgeInsets.only(top: getHeight*0.05),
+              margin: EdgeInsets.only(top: getHeight * 0.05),
               width: getWidth * 0.6,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
