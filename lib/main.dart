@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/auth_bloc/auth_bloc_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
+import 'package:flutter_blocs/ui/custom_widget/loading_widget.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:flutter_blocs/ui/pages/login_pages/login_page.dart';
+
+import 'repository/user_repository.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,7 +31,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  UserRepository userRepository;
+  UserRepository userRepository = UserRepository();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

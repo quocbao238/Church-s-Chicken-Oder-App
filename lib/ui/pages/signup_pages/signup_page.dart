@@ -7,7 +7,7 @@ import 'package:flutter_blocs/ui/pages/login_pages/login_page.dart';
 
 class SignUpPageParent extends StatefulWidget {
   UserRepository userRepository;
-  SignUpPageParent({this.userRepository});
+  SignUpPageParent({@required this.userRepository});
   @override
   _SignUpPageParentState createState() => _SignUpPageParentState();
 }
@@ -30,7 +30,12 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
       child: BlocListener<UserregBloc, UserregState>(
         listener: (context, state) {
           if (state is UserRegSuccessful) {
-            navigateToHomePage(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return HomePageParent(
+                user: state.user,
+                userRepository: userRepository,
+              );
+            }));
           } else if (state is UserregInitial) {
             // return buildInitialUi();
           } else if (state is UserRegLoading) {

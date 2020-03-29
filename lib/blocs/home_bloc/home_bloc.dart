@@ -23,7 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is LogOutEvent) {
       print("LOG out Bloc");
       userRepository.signOut();
-      yield LogOutSuccessState();
+      yield LogOutSuccessState(userRepository);
     }
   }
 }

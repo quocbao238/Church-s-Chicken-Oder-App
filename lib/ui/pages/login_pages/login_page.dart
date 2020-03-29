@@ -3,103 +3,123 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/login_bloc/login_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
+import 'package:flutter_blocs/ui/custom_widget/showToast.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:flutter_blocs/ui/pages/signup_pages/signup_page.dart';
+import 'package:toast/toast.dart';
 
 class LoginPageParent extends StatefulWidget {
   UserRepository userRepository;
-  LoginPageParent({this.userRepository});
+  LoginPageParent({@required this.userRepository});
 
   @override
   _LoginPageParentState createState() => _LoginPageParentState();
 }
 
 class _LoginPageParentState extends State<LoginPageParent> {
-  TextEditingController emailCntrlr;
-  TextEditingController passCntrlr;
+  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
+  GlobalKey loginGlobalKey = GlobalKey();
+  UserRepository userRepository;
+  @override
+  void initState() {
+    super.initState();
+    userRepository = widget.userRepository;
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginBloc(),
+      create: (context) => LoginBloc(userRepository: userRepository),
       child: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LoginSuccessState) {
+            navigateToHomeScreen(
+                context: loginGlobalKey.currentContext,
+                user: state.user,
+                userRepository: widget.userRepository);
+          } else if (state is LoginFailState) {
+            showToast(context: context, msg: state.message);
+          }
+        },
         child: BlocBuilder<LoginBloc, LoginState>(
-          builder: (context, state) => WillPopScope(
-            onWillPop: () async => false,
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text("Login"),
-                centerTitle: true,
-                automaticallyImplyLeading: false,
-              ),
-              body: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(5.0),
-                      child: TextField(
-                        controller: emailCntrlr,
-                        decoration: InputDecoration(
-                          errorStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(),
-                          labelText: "E-mail",
-                          hintText: "E-mail",
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(5.0),
-                      child: TextField(
-                        controller: passCntrlr,
-                        decoration: InputDecoration(
-                          errorStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(),
-                          labelText: "Password",
-                          hintText: "Password",
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: RaisedButton(
-                            color: Colors.cyan,
-                            child: Text("Login"),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              BlocProvider.of<LoginBloc>(context).add(
-                                LoginButtonPressed(
-                                  email: emailCntrlr.text.trim(),
-                                  password: passCntrlr.text.trim(),
-                                ),
-                              );
-                            },
+          builder: (context, state) => Scaffold(
+            key: loginGlobalKey,
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(5.0),
+                        child: TextField(
+                          controller: controllerEmail,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(color: Colors.white),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(),
+                            labelText: "E-mail",
+                            hintText: "E-mail",
                           ),
+                          keyboardType: TextInputType.emailAddress,
                         ),
-                        Container(
-                          child: RaisedButton(
-                            color: Colors.cyan,
-                            child: Text("Sign Up Now"),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              navigateToSignUpScreen(context);
-                            },
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(5.0),
+                        child: TextField(
+                          controller: controllerPassword,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(color: Colors.white),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(),
+                            labelText: "Password",
+                            hintText: "Password",
                           ),
+                          keyboardType: TextInputType.visiblePassword,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            child: RaisedButton(
+                              color: Colors.cyan,
+                              child: Text("Login"),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                                BlocProvider.of<LoginBloc>(
+                                        loginGlobalKey.currentContext)
+                                    .add(LoginButtonPressedEvent(
+                                        email: controllerEmail.text.trim(),
+                                        password:
+                                            controllerPassword.text.trim()));
+                              },
+                            ),
+                          ),
+                          Container(
+                            child: RaisedButton(
+                              color: Colors.cyan,
+                              child: Text("Sign Up Now"),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                navigateToSignUpScreen(
+                                    loginGlobalKey.currentContext);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+
+                // LoadingWidget(),
+              ],
             ),
           ),
         ),
@@ -107,44 +127,12 @@ class _LoginPageParentState extends State<LoginPageParent> {
     );
   }
 
-  Widget buildInitialUi() {
-    return Container(
-      padding: EdgeInsets.all(5.0),
-      child: Text(
-        "Enter Login Credentials",
-        style: TextStyle(
-          fontSize: 30.0,
-          color: Colors.teal,
-        ),
-      ),
-    );
-  }
-
-  Widget buildLoadingUi() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget buildFailureUi(String message) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(5.0),
-          child: Text(
-            "Fail $message",
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
-        buildInitialUi(),
-      ],
-    );
-  }
-
-  void navigateToHomeScreen(BuildContext context, FirebaseUser user) {
+  void navigateToHomeScreen(
+      {BuildContext context,
+      FirebaseUser user,
+      UserRepository userRepository}) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return HomePageParent();
+      return HomePageParent(user: user, userRepository: userRepository);
     }));
   }
 
@@ -154,174 +142,6 @@ class _LoginPageParentState extends State<LoginPageParent> {
           builder: (context) => SignUpPageParent(
                 userRepository: widget.userRepository,
               )),
-              
     );
   }
-  //     ),
-  //   ),
-  // );
 }
-
-// class LoginPAge extends StatelessWidget {
-//   TextEditingController emailCntrlr = TextEditingController();
-//   TextEditingController passCntrlr = TextEditingController();
-//   LoginBloc loginBloc;
-//   UserRepository userRepository;
-
-//   LoginPAge({@required this.userRepository});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     loginBloc = BlocProvider.of<LoginBloc>(context);
-
-//     return WillPopScope(
-//       onWillPop: () async => false,
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: Text("Login"),
-//           centerTitle: true,
-//           automaticallyImplyLeading: false,
-//         ),
-//         body: Container(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//               Container(
-//                 padding: EdgeInsets.all(5.0),
-//                 child: BlocListener<LoginBloc, LoginState>(
-//                   listener: (context, state) {
-//                     if (state is LoginSuccessState) {
-//                       navigateToHomeScreen(context, state.user);
-//                     }
-//                   },
-//                   child: BlocBuilder<LoginBloc, LoginState>(
-//                     builder: (context, state) {
-//                       if (state is LoginInitial) {
-//                         return buildInitialUi();
-//                       } else if (state is LoginLoadingState) {
-//                         return buildLoadingUi();
-//                       } else if (state is LoginFailState) {
-//                         return buildFailureUi(state.message);
-//                       } else if (state is LoginSuccessState) {
-//                         emailCntrlr.text = "";
-//                         passCntrlr.text = "";
-//                         return Container();
-//                       }
-//                     },
-//                   ),
-//                 ),
-//               ),
-//               Container(
-//                 padding: EdgeInsets.all(5.0),
-//                 child: TextField(
-//                   controller: emailCntrlr,
-//                   decoration: InputDecoration(
-//                     errorStyle: TextStyle(color: Colors.white),
-//                     filled: true,
-//                     fillColor: Colors.white,
-//                     border: OutlineInputBorder(),
-//                     labelText: "E-mail",
-//                     hintText: "E-mail",
-//                   ),
-//                   keyboardType: TextInputType.emailAddress,
-//                 ),
-//               ),
-//               Container(
-//                 padding: EdgeInsets.all(5.0),
-//                 child: TextField(
-//                   controller: passCntrlr,
-//                   decoration: InputDecoration(
-//                     errorStyle: TextStyle(color: Colors.white),
-//                     filled: true,
-//                     fillColor: Colors.white,
-//                     border: OutlineInputBorder(),
-//                     labelText: "Password",
-//                     hintText: "Password",
-//                   ),
-//                   keyboardType: TextInputType.visiblePassword,
-//                 ),
-//               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                 children: <Widget>[
-//                   Container(
-//                     child: RaisedButton(
-//                       color: Colors.cyan,
-//                       child: Text("Login"),
-//                       textColor: Colors.white,
-//                       onPressed: () {
-//                         loginBloc.add(
-//                           LoginButtonPressed(
-//                             email: emailCntrlr.text,
-//                             password: passCntrlr.text,
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                   ),
-//                   Container(
-//                     child: RaisedButton(
-//                       color: Colors.cyan,
-//                       child: Text("Sign Up Now"),
-//                       textColor: Colors.white,
-//                       onPressed: () {
-//                         navigateToSignUpScreen(context);
-//                       },
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildInitialUi() {
-//     return Container(
-//       padding: EdgeInsets.all(5.0),
-//       child: Text(
-//         "Enter Login Credentials",
-//         style: TextStyle(
-//           fontSize: 30.0,
-//           color: Colors.teal,
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildLoadingUi() {
-//     return Center(
-//       child: CircularProgressIndicator(),
-//     );
-//   }
-
-//   Widget buildFailureUi(String message) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: <Widget>[
-//         Container(
-//           padding: EdgeInsets.all(5.0),
-//           child: Text(
-//             "Fail $message",
-//             style: TextStyle(color: Colors.red),
-//           ),
-//         ),
-//         buildInitialUi(),
-//       ],
-//     );
-//   }
-
-//   void navigateToHomeScreen(BuildContext context, FirebaseUser user) {
-//     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//       return HomePageParent();
-//     }));
-//   }
-
-//   void navigateToSignUpScreen(BuildContext context) {
-//     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//       return SignUpPageParent();
-//     }));
-//   }
-// }

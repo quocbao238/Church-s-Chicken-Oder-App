@@ -10,3 +10,4 @@ class ConfigApp {
   set setUserEmail(String userEmail) => this.userEmail = userEmail;
   ConfigApp({this.userUiD,this.userEmail});
 }
+

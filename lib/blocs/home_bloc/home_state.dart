@@ -10,6 +10,10 @@ class HomeInitial extends HomeState {
 }
 
 class LogOutSuccessState extends HomeState {
+  final UserRepository userRepository;
+
+  LogOutSuccessState(this.userRepository);
+
   @override
   // TODO: implement props
   List<Object> get props => null;

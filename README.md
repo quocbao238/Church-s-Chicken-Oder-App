@@ -8,8 +8,10 @@ I have developed this app all by myself and I would be happy to share the APK of
 #### Prequisites
 -   firebase_auth
 -   flutter_bloc && meta
--   
 
+-   flutter_spinkit       
+-   flutter_screen_scaler
+-   flutter_toast
     - 
 
 ### Contact
