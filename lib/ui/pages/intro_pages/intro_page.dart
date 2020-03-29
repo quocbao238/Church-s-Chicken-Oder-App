@@ -215,7 +215,7 @@ class _IntroPageState extends State<IntroPage> {
 
             //Button
             Container(
-              width: getWidth * 0.4,
+              width: getWidth * 0.5,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.amber, width: 3),
