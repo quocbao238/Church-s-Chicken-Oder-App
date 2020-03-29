@@ -2,7 +2,7 @@
 Church's Chicken App help people oder fried chicken from Popeyes
 
 #### Feature
-This source code support to do learn Flutter ,using images taken from Popeyes.vn
+This source code support to do learn Flutter ,using images taken from Church's Chicken (www.churchs.com)
 I have developed this app all by myself and I would be happy to share the APK of the app for testing purposes.
 
 #### Prequisites
