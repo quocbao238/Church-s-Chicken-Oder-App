@@ -10,5 +10,9 @@ class LoginButtonPressedEvent extends LoginEvent {
   LoginButtonPressedEvent({this.email, this.password});
   @override
   List<Object> get props => null;
-  
+}
+
+class GotoSignUpPageEvent extends LoginEvent {
+  @override
+  List<Object> get props => null;
 }

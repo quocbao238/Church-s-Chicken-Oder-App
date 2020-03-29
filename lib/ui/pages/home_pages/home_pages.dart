@@ -6,8 +6,8 @@ import 'package:flutter_blocs/repository/user_repository.dart';
 import '../../../main.dart';
 
 class HomePageParent extends StatefulWidget {
-  FirebaseUser user;
-  UserRepository userRepository;
+  final FirebaseUser user;
+  final UserRepository userRepository;
   HomePageParent({@required this.user, @required this.userRepository});
 
   @override

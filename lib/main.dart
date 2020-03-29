@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/auth_bloc/auth_bloc_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/loading_widget.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
+import 'package:flutter_blocs/ui/pages/intro_pages/intro_page.dart';
 import 'package:flutter_blocs/ui/pages/login_pages/login_page.dart';
 
+import 'blocs/auth_bloc/auth_bloc_bloc.dart';
 import 'repository/user_repository.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+  ));
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // UserRepository userRepository = UserRepository();
@@ -17,11 +27,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Popeyes',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: App());
+        home: IntroPage(
+          userRepository: new UserRepository(),
+        ));
   }
 }
 
@@ -41,7 +53,9 @@ class _AppState extends State<App> {
         listener: (context, state) {},
         child: BlocBuilder<AuthBloc, AuthBlocState>(
           builder: (context, state) {
-            if (state is AuthenticatedState) {
+            if (state is AuthenLoadingState) {
+              return LoadingWidget();
+            } else if (state is AuthenticatedState) {
               debugPrint("AuthenticatedState");
               return HomePageParent(
                 user: state.user,

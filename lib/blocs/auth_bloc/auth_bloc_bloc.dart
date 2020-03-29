@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   @override
   Stream<AuthBlocState> mapEventToState(AuthBlocEvent event) async* {
     if (event is AppStartedEvent) {
+      yield AuthenLoadingState();
       try {
         var isSignedIn = await event.userRepository.isSignedIn();
         if (isSignedIn) {

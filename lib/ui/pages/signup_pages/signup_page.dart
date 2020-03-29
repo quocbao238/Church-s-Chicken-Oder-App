@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/reg_bloc/userreg_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
-import 'package:flutter_blocs/ui/pages/login_pages/login_page.dart';
 
 class SignUpPageParent extends StatefulWidget {
-  UserRepository userRepository;
+  final UserRepository userRepository;
   SignUpPageParent({@required this.userRepository});
   @override
   _SignUpPageParentState createState() => _SignUpPageParentState();
@@ -30,22 +29,16 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
       child: BlocListener<UserregBloc, UserregState>(
         listener: (context, state) {
           if (state is UserRegSuccessful) {
+            emailCntrl.text = "";
+            passCntrlr.text = "";
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return HomePageParent(
                 user: state.user,
                 userRepository: userRepository,
               );
             }));
-          } else if (state is UserregInitial) {
-            // return buildInitialUi();
-          } else if (state is UserRegLoading) {
-            // return buildLoadingUi();
           } else if (state is UserRegFailure) {
             debugPrint(state.message);
-          } else if (state is UserRegSuccessful) {
-            emailCntrl.text = "";
-            passCntrlr.text = "";
-            // return Container();
           }
         },
         child: BlocBuilder<UserregBloc, UserregState>(
@@ -107,6 +100,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
                   child: Text("Sign Up"),
                   textColor: Colors.white,
                   onPressed: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
                     BlocProvider.of<UserregBloc>(signupGlobalKey.currentContext)
                         .add(SignUpButtonPressed(
                             email: emailCntrl.text.trim(),
@@ -129,34 +123,5 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
         ],
       ),
     );
-  }
-
-  // Widget buildInitialUi() {
-  //   return Text("Waiting For Authentication");
-  // }
-
-  // Widget buildLoadingUi() {
-  //   return Center(
-  //     child: CircularProgressIndicator(),
-  //   );
-  // }
-
-  void navigateToHomePage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return HomePageParent();
-    }));
-  }
-
-  Widget buildFailureUi(String message) {
-    return Text(
-      message,
-      style: TextStyle(color: Colors.red),
-    );
-  }
-
-  void navigateToLoginPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginPageParent();
-    }));
   }
 }

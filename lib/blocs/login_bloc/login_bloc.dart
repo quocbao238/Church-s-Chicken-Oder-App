@@ -30,6 +30,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailState(message: e.toString());
       }
     }
+    else if( event is GotoSignUpPageEvent){
+      yield GotoSignUpPageState();
+    }
     yield LoginInitial();
   }
 }

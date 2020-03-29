@@ -1,6 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_blocs/repository/user_repository.dart';
-
 class ConfigApp {
   String userUiD;
   String userEmail;

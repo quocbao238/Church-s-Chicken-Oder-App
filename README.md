@@ -12,7 +12,10 @@ I have developed this app all by myself and I would be happy to share the APK of
 -   flutter_spinkit       
 -   flutter_screen_scaler
 -   flutter_toast
-    - 
+-   google_fonts
+-   font_awesome_flutter
+-   cached_network_image
+-   dots_indicator
 
 ### Contact
 If you have any copyright issues please contact us via email: baobondev@gmail.com
