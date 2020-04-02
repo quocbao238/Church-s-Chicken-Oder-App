@@ -16,14 +16,16 @@ class UserRegLoading extends UserregState {
 
 class UserRegSuccessful extends UserregState {
   final FirebaseUser user;
-  UserRegSuccessful(this.user);
+  final UserRepository userRepository;
+  UserRegSuccessful(this.user, this.userRepository);
   @override
   List<Object> get props => null;
 }
 
+
 class UserRegFailure extends UserregState {
   final String message;
-  UserRegFailure(this.message);
+  UserRegFailure({this.message});
   // @override
   // List<Object> get props => throw UnimplementedError();
   @override

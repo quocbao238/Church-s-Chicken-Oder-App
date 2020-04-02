@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/reg_bloc/userreg_bloc.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
+import 'package:flutter_blocs/ui/custom_widget/loading_widget.dart';
+import 'package:flutter_blocs/ui/custom_widget/showToast.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +17,7 @@ class SignUpPageParent extends StatefulWidget {
 }
 
 class _SignUpPageParentState extends State<SignUpPageParent> {
+  TextEditingController userCntrl = TextEditingController();
   TextEditingController emailCntrl = TextEditingController();
   TextEditingController passCntrlr = TextEditingController();
   GlobalKey signupGlobalKey = GlobalKey();
@@ -41,36 +44,45 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return HomePageParent(
                 user: state.user,
-                userRepository: userRepository,
+                userRepository: state.userRepository,
               );
             }));
           } else if (state is UserRegFailure) {
-            debugPrint(state.message);
+            showToast(msg: state.message, context: context);
           }
         },
         child: BlocBuilder<UserregBloc, UserregState>(
           builder: (context, state) => Scaffold(
             key: signupGlobalKey,
             resizeToAvoidBottomPadding: false,
-            body: buildPageView(getHeight, getWidth),
-            // pageView(),
+            body: Stack(
+              children: <Widget>[
+                buildImageScreen(getHeight, getWidth),
+                buildAppbar(getHeight, getWidth),
+                buildBackSignIn(getHeight, getWidth),
+                buildCenterPage(context, getHeight, getWidth),
+                buildBottomSignIn(context, getHeight, getWidth),
+                state is UserRegLoading ? LoadingWidget() : SizedBox(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Stack buildPageView(double getHeight, double getWidth) {
-    return Stack(
-      children: <Widget>[
-        buildImageScreen(getHeight, getWidth),
-        buildAppbar(getHeight, getWidth),
-        buildBackSignIn(getHeight, getWidth),
-        buildCenterPage(context, getHeight, getWidth),
-        buildBottomSignIn(context, getHeight, getWidth),
-      ],
-    );
-  }
+  // Stack buildPageView(double getHeight, double getWidth) {
+  //   return Stack(
+  //     children: <Widget>[
+  //       buildImageScreen(getHeight, getWidth),
+  //       buildAppbar(getHeight, getWidth),
+  //       buildBackSignIn(getHeight, getWidth),
+  //       buildCenterPage(context, getHeight, getWidth),
+  //       buildBottomSignIn(context, getHeight, getWidth),
+  //       state is UserRegLoading ? LoadingWidget() : SizedBox(),
+  //     ],
+  //   );
+  // }
 
   Positioned buildBottomSignIn(
       BuildContext context, double getHeight, double getWidth) {
@@ -156,9 +168,22 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
 
   Positioned buildBackSignIn(double getHeight, double getWidth) {
     return Positioned(
-      top: getWidth * 0.1,
-      left: getWidth * 0.05,
-      child: Icon(Icons.arrow_back, color: Colors.white, size: 30.0),
+      top: getWidth * 0.05,
+      left: getWidth * 0.01,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            print("On Tap");
+            Navigator.pop(context);
+          });
+        },
+        child: Container(
+            width: getWidth * 0.15,
+            height: getWidth * 0.15,
+            child: Center(
+                child:
+                    Icon(Icons.arrow_back, color: Colors.white, size: 30.0))),
+      ),
     );
   }
 
@@ -193,7 +218,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
               margin: EdgeInsets.only(top: getHeight * 0.35),
               padding: EdgeInsets.only(left: 25.0, right: 25.0),
               child: TextField(
-                controller: emailCntrl,
+                controller: userCntrl,
                 decoration: InputDecoration(
                   errorStyle: TextStyle(color: Colors.white),
                   filled: true,
@@ -293,10 +318,11 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
             GestureDetector(
               onTap: () {
                 FocusScope.of(context).requestFocus(new FocusNode());
-                // BlocProvider.of<LoginBloc>(loginGlobalKey.currentContext).add(
-                //     LoginButtonPressedEvent(
-                //         email: controllerEmail.text.trim(),
-                //         password: controllerPassword.text.trim()));
+                BlocProvider.of<UserregBloc>(signupGlobalKey.currentContext)
+                    .add(SignUpButtonPressed(
+                        email: emailCntrl.text.trim(),
+                        password: passCntrlr.text.trim(),
+                        userName: userCntrl.text.trim()));
               },
               child: Container(
                 height: getHeight * 0.08,

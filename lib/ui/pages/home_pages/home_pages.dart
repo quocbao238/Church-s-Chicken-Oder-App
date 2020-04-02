@@ -38,6 +38,13 @@ class _HomePageParentState extends State<HomePageParent> {
         false;
   }
 
+  FirebaseUser user;
+  @override
+  void initState() {
+    super.initState();
+    widget.user.reload();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -82,7 +89,7 @@ class _HomePageParentState extends State<HomePageParent> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: Text(widget.user.uid),
+              child: Text(widget?.user?.displayName ?? "Deo co data"),
             ),
           ],
         ),

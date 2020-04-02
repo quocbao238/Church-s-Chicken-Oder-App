@@ -5,8 +5,8 @@ abstract class UserregEvent extends Equatable {
 }
 
 class SignUpButtonPressed extends UserregEvent {
-  final String email, password;
-  SignUpButtonPressed({this.email, this.password});
+  final String email, password, userName;
+  SignUpButtonPressed({this.email, this.password, this.userName});
   @override
   List<Object> get props => throw UnimplementedError();
 }

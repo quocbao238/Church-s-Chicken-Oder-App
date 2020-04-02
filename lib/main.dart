@@ -21,8 +21,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // UserRepository userRepository = UserRepository();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,9 +29,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: IntroPage(
-          userRepository: new UserRepository(),
-        ));
+        home: App());
   }
 }
 
@@ -50,23 +46,25 @@ class _AppState extends State<App> {
       create: (context) =>
           AuthBloc()..add(AppStartedEvent(userRepository: userRepository)),
       child: BlocListener<AuthBloc, AuthBlocState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is AuthenticatedState) {
+            debugPrint("AuthenticatedState");
+            Navigator.of(context)
+                .pushReplacement(new MaterialPageRoute(builder: (context) {
+              return HomePageParent(
+                  user: state.user, userRepository: userRepository);
+            }));
+          } else if (state is UnauthenticatedState) {
+            debugPrint("UnauthenticatedState");
+            Navigator.of(context)
+                .pushReplacement(new MaterialPageRoute(builder: (context) {
+              return IntroPage(userRepository: userRepository);
+            }));
+          }
+        },
         child: BlocBuilder<AuthBloc, AuthBlocState>(
           builder: (context, state) {
-            if (state is AuthenLoadingState) {
-              return LoadingWidget();
-            } else if (state is AuthenticatedState) {
-              debugPrint("AuthenticatedState");
-              return HomePageParent(
-                user: state.user,
-                userRepository: userRepository,
-              );
-            } else if (state is UnauthenticatedState) {
-              debugPrint("UnauthenticatedState");
-              return IntroPage(
-                userRepository: userRepository,
-              );
-            }
+            return LoadingWidget();
           },
         ),
       ),

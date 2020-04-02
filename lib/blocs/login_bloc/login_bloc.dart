@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
+import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -25,12 +26,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         var user = await userRepository.signInEmailAndPassword(
             event.email, event.password);
-        yield LoginSuccessState(user: user);
+        if (user != null) {
+          print(user);
+          yield LoginSuccessState(user: user);
+        }
       } catch (e) {
         yield LoginFailState(message: e.toString());
       }
-    }
-    else if( event is GotoSignUpPageEvent){
+    } else if (event is GotoSignUpPageEvent) {
       yield GotoSignUpPageState();
     }
     yield LoginInitial();
