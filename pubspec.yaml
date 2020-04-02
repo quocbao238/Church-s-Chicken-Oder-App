@@ -25,6 +25,8 @@ dependencies:
   font_awesome_flutter: ^8.7.0
   cached_network_image: ^2.0.0
   dots_indicator: ^1.1.0
+  circular_check_box: ^1.0.1
+
 
 
 

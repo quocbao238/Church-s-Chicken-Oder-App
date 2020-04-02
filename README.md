@@ -9,7 +9,12 @@ I have developed this app all by myself and I would be happy to share the APK of
 
 #### Screenshot
 
+ - Slider Church's Chicken
 <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot1.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot2.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot3.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot4.png" width="200"/>
+
+ - Login & Resgiter Church's Chicken
+<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot5.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot6.png" width="200"/> 
+
 
 #### Prequisites
 

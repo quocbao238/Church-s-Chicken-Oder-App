@@ -30,4 +30,5 @@ final String sliderImage1 = 'assets/sliderImage1.jpg';
 final String sliderImage2 = 'assets/sliderImage4.png';
 final String sliderImage3 = 'assets/sliderImage2.jpg';
 final String sliderImage4 = 'assets/sliderImage3.jpg';
+final String loginImage   = 'assets/loginImage.jpg';
 final String sliderLogoImage = 'assets/churchlogo.png';
