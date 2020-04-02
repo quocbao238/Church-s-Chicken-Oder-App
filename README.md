@@ -29,6 +29,8 @@ I have developed this app all by myself and I would be happy to share the APK of
 - font_awesome_flutter
 - cached_network_image
 - dots_indicator
+- circular_check_box
+- flutter_zoom_drawer
 
 ### Contact
 

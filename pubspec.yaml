@@ -26,6 +26,8 @@ dependencies:
   cached_network_image: ^2.0.0
   dots_indicator: ^1.1.0
   circular_check_box: ^1.0.1
+  flutter_zoom_drawer: ^1.0.1+1
+
 
 
 

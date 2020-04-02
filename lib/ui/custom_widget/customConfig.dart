@@ -32,6 +32,10 @@ final String sliderImage3 = 'assets/sliderImage2.jpg';
 final String sliderImage4 = 'assets/sliderImage3.jpg';
 final String loginImage   = 'assets/loginImage.jpg';
 final String sliderLogoImage = 'assets/churchlogo.png';
+final String navigatorBottom1 = 'assets/combo.png';
+final String navigatorBottom2 = 'assets/family.png';
+final String navigatorBottom3 = 'assets/sides.png';
+final String navigatorBottom4 = 'assets/drink.png';
 
 /* Image Url */
 final String avatarImageUrl = "https://www.churchs.com/wp-content/themes/churchs-web/static/img/churchs-logo-primary-af59e02bc2.png";
