@@ -16,3 +16,11 @@ class GotoSignUpPageEvent extends LoginEvent {
   @override
   List<Object> get props => null;
 }
+
+
+class HideShowPasswordEvent extends LoginEvent {
+  final bool isHide;
+  HideShowPasswordEvent({this.isHide});
+  @override
+  List<Object> get props => null;
+}

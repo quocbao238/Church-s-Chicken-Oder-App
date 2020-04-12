@@ -22,12 +22,16 @@ class UserRegSuccessful extends UserregState {
   List<Object> get props => null;
 }
 
-
 class UserRegFailure extends UserregState {
   final String message;
   UserRegFailure({this.message});
-  // @override
-  // List<Object> get props => throw UnimplementedError();
+  @override
+  List<Object> get props => null;
+}
+
+class HideShowPasswordState extends UserregState {
+  final bool isHide;
+  HideShowPasswordState({this.isHide});
   @override
   List<Object> get props => null;
 }

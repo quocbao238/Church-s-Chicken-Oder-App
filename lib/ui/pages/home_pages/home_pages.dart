@@ -58,7 +58,6 @@ class _HomePageParentState extends State<HomePageParent> {
     });
   }
 
-
   final _drawerController = ZoomDrawerController();
 
   @override
@@ -88,23 +87,25 @@ class _HomePageParentState extends State<HomePageParent> {
     return new WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text("Home"),
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  BlocProvider.of<HomeBloc>(context).add(LogOutEvent());
+                },
+              ),
+            ],
+          ),
           body: Stack(
-        children: <Widget>[
-            ZoomDrawer(
-      controller: ZoomDrawerController,
-      menuScreen: MENU_SCREEN,
-      mainScreen: MAIN_SCREEN,
-      borderRadius: 24.0,
-      showShadow: true,
-      angle: -12.0,
-      backgroundColor: Colors.grey[300],
-      slideWidth: MediaQuery.of(context).size.width*.65,
-    )
-          buildPageView(),
-          // Bottom Bar
-          buildBottomBar(getWidth)
-        ],
-      )),
+            children: <Widget>[buildPageView(), buildBottomBar(getWidth)],
+          )),
     );
   }
 
@@ -153,14 +154,3 @@ class _HomePageParentState extends State<HomePageParent> {
     ];
   }
 }
-
-// class ComboPage extends StatelessWidget {
-//   const ComboPage({
-//     Key key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(color: Colors.red);
-//   }
-// }

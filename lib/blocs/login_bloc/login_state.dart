@@ -32,3 +32,11 @@ class GotoSignUpPageState extends LoginState {
   @override
   List<Object> get props => null;
 }
+
+
+class HideShowPasswordState extends LoginState {
+  final bool isHide;
+  HideShowPasswordState({this.isHide});
+  @override
+  List<Object> get props => null;
+}

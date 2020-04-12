@@ -18,9 +18,10 @@ class LoginPageParent extends StatefulWidget {
 }
 
 class _LoginPageParentState extends State<LoginPageParent> {
-  TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController(text: "quocbao@gmail.com");
+  TextEditingController controllerPassword = TextEditingController(text: "123456");
   GlobalKey loginGlobalKey = GlobalKey();
+  bool isHide = true;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,9 @@ class _LoginPageParentState extends State<LoginPageParent> {
                         userRepository: widget.userRepository,
                       )),
             );
+          } else if (state is HideShowPasswordState) {
+            // FocusScope.of(context).requestFocus(new FocusNode());
+            isHide = !state.isHide;
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(
@@ -52,11 +56,11 @@ class _LoginPageParentState extends State<LoginPageParent> {
             key: loginGlobalKey,
             resizeToAvoidBottomPadding: false,
             body: Stack(
+              // alignment: AlignmentDirectional.center,
               children: <Widget>[
                 buildImageScreen(getHeight, getWidth),
                 buildAppbar(getHeight, getWidth),
                 buildCenterPage(context, getHeight, getWidth),
-                // LoadingWidget(),
                 state is LoginLoadingState ? LoadingWidget() : SizedBox(),
               ],
             ),
@@ -98,6 +102,7 @@ class _LoginPageParentState extends State<LoginPageParent> {
                   left: 25.0, right: 25.0, top: getHeight * 0.02),
               child: TextField(
                 controller: controllerPassword,
+                obscureText: isHide,
                 decoration: InputDecoration(
                   errorStyle: TextStyle(color: Colors.white),
                   filled: true,
@@ -113,7 +118,10 @@ class _LoginPageParentState extends State<LoginPageParent> {
                   suffixIcon: IconButton(
                       icon: Icon(Icons.remove_red_eye, color: Colors.black),
                       onPressed: () {
-                        debugPrint('222');
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        BlocProvider.of<LoginBloc>(
+                                loginGlobalKey.currentContext)
+                            .add(HideShowPasswordEvent(isHide: isHide));
                       }),
                 ),
                 keyboardType: TextInputType.visiblePassword,
@@ -133,7 +141,7 @@ class _LoginPageParentState extends State<LoginPageParent> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                         ),
                       ),
                     ),
@@ -143,11 +151,13 @@ class _LoginPageParentState extends State<LoginPageParent> {
             ),
             GestureDetector(
               onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-                BlocProvider.of<LoginBloc>(loginGlobalKey.currentContext).add(
-                    LoginButtonPressedEvent(
-                        email: controllerEmail.text.trim(),
-                        password: controllerPassword.text.trim()));
+                BlocProvider.of<LoginBloc>(loginGlobalKey.currentContext)
+                    .add(LoginButtonPressedEvent(
+                  email: controllerEmail.text.trim(),
+                  password: controllerPassword.text.trim(),
+                ));
+
+                // FocusScope.of(context).requestFocus(new FocusNode());
               },
               child: Container(
                 height: getHeight * 0.08,
@@ -201,7 +211,7 @@ class _LoginPageParentState extends State<LoginPageParent> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      BlocProvider.of<LoginBloc>(context)
+                      BlocProvider.of<LoginBloc>(loginGlobalKey.currentContext)
                           .add(GotoSignUpPageEvent());
                     },
                     child: Container(
@@ -226,8 +236,6 @@ class _LoginPageParentState extends State<LoginPageParent> {
     );
   }
 
-  // BlocProvider.of<LoginBloc>(context)
-  //   .add(GotoSignUpPageEvent());
 
   Container buildImageScreen(double getHeight, double getWidth) {
     return Container(

@@ -9,6 +9,9 @@ import 'package:flutter_blocs/ui/custom_widget/showToast.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../blocs/reg_bloc/userreg_bloc.dart';
+import '../../../blocs/reg_bloc/userreg_bloc.dart';
+
 class SignUpPageParent extends StatefulWidget {
   final UserRepository userRepository;
   SignUpPageParent({@required this.userRepository});
@@ -23,6 +26,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
   GlobalKey signupGlobalKey = GlobalKey();
   UserRepository userRepository;
   bool isChecked = false;
+  bool isHide = true;
 
   @override
   void initState() {
@@ -49,12 +53,16 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
             }));
           } else if (state is UserRegFailure) {
             showToast(msg: state.message, context: context);
+          } else if (state is HideShowPasswordState) {
+            // FocusScope.of(context).requestFocus(new FocusNode());
+            isHide = !state.isHide;
           }
         },
         child: BlocBuilder<UserregBloc, UserregState>(
           builder: (context, state) => Scaffold(
             key: signupGlobalKey,
             resizeToAvoidBottomPadding: false,
+            // resizeToAvoidBottomInset: false,
             body: Stack(
               children: <Widget>[
                 buildImageScreen(getHeight, getWidth),
@@ -70,19 +78,6 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
       ),
     );
   }
-
-  // Stack buildPageView(double getHeight, double getWidth) {
-  //   return Stack(
-  //     children: <Widget>[
-  //       buildImageScreen(getHeight, getWidth),
-  //       buildAppbar(getHeight, getWidth),
-  //       buildBackSignIn(getHeight, getWidth),
-  //       buildCenterPage(context, getHeight, getWidth),
-  //       buildBottomSignIn(context, getHeight, getWidth),
-  //       state is UserRegLoading ? LoadingWidget() : SizedBox(),
-  //     ],
-  //   );
-  // }
 
   Positioned buildBottomSignIn(
       BuildContext context, double getHeight, double getWidth) {
@@ -260,6 +255,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
               padding: EdgeInsets.only(
                   left: 25.0, right: 25.0, top: getHeight * 0.02),
               child: TextField(
+                obscureText: isHide,
                 controller: passCntrlr,
                 decoration: InputDecoration(
                   errorStyle: TextStyle(color: Colors.white),
@@ -276,7 +272,10 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
                   suffixIcon: IconButton(
                       icon: Icon(Icons.remove_red_eye, color: Colors.black),
                       onPressed: () {
-                        debugPrint('222');
+                        // FocusScope.of(context).requestFocus(new FocusNode());
+                        BlocProvider.of<UserregBloc>(
+                                signupGlobalKey.currentContext)
+                            .add(HideShowPasswordEvent(isHide: isHide));
                       }),
                 ),
                 keyboardType: TextInputType.visiblePassword,
@@ -307,7 +306,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                         ),
                       ),
                     ),
@@ -322,7 +321,8 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
                     .add(SignUpButtonPressed(
                         email: emailCntrl.text.trim(),
                         password: passCntrlr.text.trim(),
-                        userName: userCntrl.text.trim()));
+                        userName: userCntrl.text.trim(),
+                        isCheckin: isChecked));
               },
               child: Container(
                 height: getHeight * 0.08,
@@ -360,79 +360,4 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
       ),
     );
   }
-
-  Container pageView() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(5.0),
-            child: TextField(
-              controller: emailCntrl,
-              decoration: InputDecoration(
-                errorStyle: TextStyle(color: Colors.white),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(),
-                labelText: "E-mail",
-                hintText: "E-mail",
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(5.0),
-            child: TextField(
-              controller: passCntrlr,
-              decoration: InputDecoration(
-                errorStyle: TextStyle(color: Colors.white),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(),
-                labelText: "Password",
-                hintText: "Password",
-              ),
-              keyboardType: TextInputType.visiblePassword,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                child: RaisedButton(
-                  color: Colors.cyan,
-                  child: Text("Sign Up"),
-                  textColor: Colors.white,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    BlocProvider.of<UserregBloc>(signupGlobalKey.currentContext)
-                        .add(SignUpButtonPressed(
-                            email: emailCntrl.text.trim(),
-                            password: passCntrlr.text.trim()));
-                  },
-                ),
-              ),
-              Container(
-                child: RaisedButton(
-                  color: Colors.cyan,
-                  child: Text("Login Now"),
-                  textColor: Colors.white,
-                  onPressed: () {
-                    // navigateToLoginPage(context);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }
-
-// FocusScope.of(context).requestFocus(new FocusNode());
-//                     BlocProvider.of<UserregBloc>(signupGlobalKey.currentContext)
-//                         .add(SignUpButtonPressed(
-//                             email: emailCntrl.text.trim(),
-//                             password: passCntrlr.text.trim()));

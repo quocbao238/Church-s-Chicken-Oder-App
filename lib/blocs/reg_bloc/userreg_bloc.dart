@@ -22,38 +22,45 @@ class UserregBloc extends Bloc<UserregEvent, UserregState> {
     if (event is SignUpButtonPressed) {
       yield UserRegLoading();
       try {
-        if (event.userName != null && event.userName.length > 2) {
-          if (event.email.contains("@") &&
-              event.email.contains(".") &&
-              event.email != null) {
-            if (event.password != null && event.password.length > 5) {
-              var user = await userRepository.signUpUserWithEmailPass(
-                  event.email, event.password);
-              if (user != null) {
-                UserUpdateInfo updateInfo = UserUpdateInfo();
-                updateInfo.displayName = event.userName;
-                await user.updateProfile(updateInfo);
-                await user.reload();
-                var userSend = await userRepository.getCurrentUser();
-                print('USERNAME IS: ${userSend.displayName}');
-                yield UserRegSuccessful(userSend, userRepository);
+        if (event.isCheckin) {
+          if (event.userName != null && event.userName.length > 2) {
+            if (event.email.contains("@") &&
+                event.email.contains(".") &&
+                event.email != null) {
+              if (event.password != null && event.password.length > 5) {
+                var user = await userRepository.signUpUserWithEmailPass(
+                    event.email, event.password);
+                if (user != null) {
+                  UserUpdateInfo updateInfo = UserUpdateInfo();
+                  updateInfo.displayName = event.userName;
+                  await user.updateProfile(updateInfo);
+                  await user.reload();
+                  var userSend = await userRepository.getCurrentUser();
+                  print('USERNAME IS: ${userSend.displayName}');
+                  yield UserRegSuccessful(userSend, userRepository);
+                } else {
+                  yield UserRegFailure(
+                      message: "Login failed! please check again");
+                }
               } else {
-                yield UserRegFailure(
-                    message: "Đăng nhập thất bại. Vui lòng kiểm tra lại!");
+                yield UserRegFailure(message: "Password must be greater than 5 characters");
               }
             } else {
-              yield UserRegFailure(message: "Mật khẩu phải lớn hơn 5 ký tự");
+              yield UserRegFailure(message: "Invalid Email! Please check again!");
             }
           } else {
-            yield UserRegFailure(message: "Email không hợp lệ!");
+            yield UserRegFailure(
+                message: "UserName must be greater than 2 characters");
           }
-        } else {
-          yield UserRegFailure(
-              message: "Tên người dùng phải có ít nhất 2 kí tự");
+        }else {
+            yield UserRegFailure(
+                message: "You have not agreed to the terms and privacy policy");
         }
       } catch (e) {
         yield UserRegFailure(message: e.toString());
       }
+    } else if (event is HideShowPasswordEvent) {
+      yield HideShowPasswordState(isHide: event.isHide);
     }
     yield UserregInitial();
   }
