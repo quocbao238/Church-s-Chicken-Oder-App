@@ -17,9 +17,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     if (event is LogOutEvent) {
-      print("LOG out Bloc");
       userRepository.signOut();
       yield LogOutSuccessState(userRepository);
+    } else if (event is ChangePageEvent) {
+      yield ChangePageState(index: event.index);
     }
+    yield HomeInitial();
   }
 }

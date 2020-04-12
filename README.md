@@ -15,7 +15,11 @@ I have developed this app all by myself and I would be happy to share the APK of
 
  - Login & Resgiter Church's Chicken
 
-<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot5.png" width="400"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot6.png" width="400"/> 
+<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot5.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot6.png" width="200"/> 
+
+- Home Church's Chicken
+
+<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot7.png" width="200"/> 
 
 
 #### Prequisites
@@ -31,6 +35,8 @@ I have developed this app all by myself and I would be happy to share the APK of
 - dots_indicator
 - circular_check_box
 - flutter_zoom_drawer
+- cache_image
+
 
 ### Contact
 

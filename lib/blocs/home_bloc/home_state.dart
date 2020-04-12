@@ -15,3 +15,11 @@ class LogOutSuccessState extends HomeState {
   @override
   List<Object> get props => null;
 }
+
+
+class ChangePageState extends HomeState {
+  final int index;
+   ChangePageState({this.index});
+  @override
+  List<Object> get props => null;
+}

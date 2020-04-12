@@ -33,6 +33,7 @@ class UserregBloc extends Bloc<UserregEvent, UserregState> {
                 if (user != null) {
                   UserUpdateInfo updateInfo = UserUpdateInfo();
                   updateInfo.displayName = event.userName;
+                  updateInfo.photoUrl = avatarImageUrl;
                   await user.updateProfile(updateInfo);
                   await user.reload();
                   var userSend = await userRepository.getCurrentUser();
@@ -43,18 +44,20 @@ class UserregBloc extends Bloc<UserregEvent, UserregState> {
                       message: "Login failed! please check again");
                 }
               } else {
-                yield UserRegFailure(message: "Password must be greater than 5 characters");
+                yield UserRegFailure(
+                    message: "Password must be greater than 5 characters");
               }
             } else {
-              yield UserRegFailure(message: "Invalid Email! Please check again!");
+              yield UserRegFailure(
+                  message: "Invalid Email! Please check again!");
             }
           } else {
             yield UserRegFailure(
                 message: "UserName must be greater than 2 characters");
           }
-        }else {
-            yield UserRegFailure(
-                message: "You have not agreed to the terms and privacy policy");
+        } else {
+          yield UserRegFailure(
+              message: "You have not agreed to the terms and privacy policy");
         }
       } catch (e) {
         yield UserRegFailure(message: e.toString());

@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/home_bloc/home_bloc.dart';
+import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/comboPage.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/my_bottom_tab.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../main.dart';
 import '../../custom_widget/showToast.dart';
 
@@ -20,8 +19,21 @@ class HomePageParent extends StatefulWidget {
 }
 
 class _HomePageParentState extends State<HomePageParent> {
+  GlobalKey homeGlobalKey = GlobalKey();
+
+  /* List Widget */
+  List<Widget> pages;
+  /* Page view Index */
+  int selectedIndex = 0;
+  /* Bottom tab index*/
+  int currentIndex = 0;
+  /* Bottom Tab Funtion */
+  void _onPress(int num) {
+    BlocProvider.of<HomeBloc>(homeGlobalKey.currentContext)
+        .add(ChangePageEvent(index: num));
+  }
+
   Future<bool> _onWillPop() async {
-    showToast(msg: "On backpress");
     return (await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
@@ -42,27 +54,15 @@ class _HomePageParentState extends State<HomePageParent> {
         false;
   }
 
-  /* Page Controller */
-  PageController _pageController;
-  /* List Widget */
-  List<Widget> pages;
-  /* Page view Index */
-  int selectedIndex = 0;
-  /* Bottom tab index*/
-  int currentIndex = 1;
-  /* Bottom Tab Funtion */
-  void _onPress(int num) {
-    setState(() {
-      currentIndex = num;
-      print("currentIndex ${currentIndex}");
-    });
+  @override
+  void initState() {
+    ConfigApp.isShowstatusBarColor = true;
+    super.initState();
   }
-
-  final _drawerController = ZoomDrawerController();
 
   @override
   Widget build(BuildContext context) {
-    _definePages();
+    // _definePages();
     double getHeight = MediaQuery.of(context).size.height;
     double getWidth = MediaQuery.of(context).size.width;
     return BlocProvider(
@@ -70,9 +70,15 @@ class _HomePageParentState extends State<HomePageParent> {
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is LogOutSuccessState) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return App();
-            }));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return App();
+                },
+              ),
+            );
+          } else if (state is ChangePageState) {
+            currentIndex = state.index;
           }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
@@ -87,34 +93,65 @@ class _HomePageParentState extends State<HomePageParent> {
     return new WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text("Home"),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  BlocProvider.of<HomeBloc>(context).add(LogOutEvent());
-                },
-              ),
-            ],
-          ),
-          body: Stack(
-            children: <Widget>[buildPageView(), buildBottomBar(getWidth)],
-          )),
+        key: homeGlobalKey,
+        body: Stack(
+          children: <Widget>[
+            buildPageView(),
+            buildTopView(getWidth, getHeight),
+            buildBottomBar(getWidth, getHeight),
+          ],
+        ),
+      ),
     );
   }
 
-  Positioned buildBottomBar(double getWidth) {
+  Positioned buildTopView(double getWidth, double getHeight) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: SafeArea(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: getWidth * 0.05),
+          height: getHeight * 0.1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  _onMenuPressed(
+                    context: homeGlobalKey.currentContext,
+                    getHeight: getHeight,
+                  );
+                },
+                child: Container(
+                  height: getWidth * 0.1,
+                  width: getWidth * 0.1,
+                  child: ClipOval(
+                    child: Image.network(
+                      // widget.user?.photoUrl ??
+                      "https://avatars2.githubusercontent.com/u/51372227?s=460&u=10b00a76a16feb0edadd49f31c7d2805c2663239&v=4",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned buildBottomBar(double getWidth, double getHeight) {
     return Positioned(
       left: 0,
       right: 0,
       bottom: 0,
       child: Container(
+        height: getHeight * 0.1,
         padding: EdgeInsets.only(left: getWidth * 0.05, right: getWidth * 0.05),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,16 +178,142 @@ class _HomePageParentState extends State<HomePageParent> {
 
   Positioned buildPageView() {
     return Positioned.fill(
-      child: pages[currentIndex],
+      child: Stack(
+        children: <Widget>[
+          currentIndex == 0
+              ? ComboPage()
+              : currentIndex == 1
+                  ? Container(color: Colors.blue)
+                  : currentIndex == 2
+                      ? Container(color: Colors.green)
+                      : currentIndex == 3
+                          ? Container(color: Colors.amber)
+                          : SizedBox(),
+        ],
+      ),
     );
   }
 
-  _definePages() {
-    pages = [
-      ComboPage(),
-      Container(color: Colors.blue),
-      Container(color: Colors.green),
-      Container(color: Colors.amber),
-    ];
+  void _onMenuPressed({BuildContext context, double getHeight}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        color: Color(0xFF737373),
+        height: getHeight * 0.2,
+        child: Container(
+          child: _buildMenuWidgetBotom(context),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column _buildMenuWidgetBotom(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Expanded(
+          flex: 4,
+          child: ListTile(
+            title: Text(
+              'Help and Support',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => new AlertDialog(
+                  title: new Text('Notification'),
+                  content: new Text('The feature are improving'),
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Center(
+            child: Divider(height: 2.0, color: Colors.black),
+          ),
+        ),
+        Expanded(
+          flex: 4,
+          child: ListTile(
+            title: Text(
+              'Privacy Settings',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => new AlertDialog(
+                  title: new Text('Notification'),
+                  content: new Text('The feature are improving'),
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+            flex: 1,
+            child: Center(
+              child: Divider(height: 2.0, color: Colors.black),
+            )),
+        Expanded(
+          flex: 4,
+          child: ListTile(
+            title: Text(
+              'Log out',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: new Text('Are you sure?'),
+                  content: new Text('Do you want to Log out?'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Text('No'),
+                    ),
+                    new FlatButton(
+                      onPressed: () {
+                        BlocProvider.of<HomeBloc>(homeGlobalKey.currentContext)
+                            .add(LogOutEvent());
+
+                        Navigator.pop(context);
+                      },
+                      child: new Text('Yes'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Center(
+            child: Divider(height: 2.0, color: Colors.black),
+          ),
+        ),
+      ],
+    );
   }
 }

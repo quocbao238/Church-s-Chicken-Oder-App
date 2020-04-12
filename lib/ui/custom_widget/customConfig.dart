@@ -19,10 +19,20 @@ final String btnSilder2  = "SEE THE LATEST";
 final String btnSilder3  = "GARLIC BUTTER JUST DROPPED";
 final String btnSilder4  = "GARLIC BUTTER BLISS";
 
+final String nameChurh = "Church's Chickens";
+final String slogan = "You keep craving";
+final String slogan2 = "We keep cooking";
 
 /* Color */
 final Color containerColor = Color.fromRGBO(218, 97, 33, 1);
 final Color tittleColor = Colors.white;
+final Color containerCombo = Color.fromRGBO(205, 236, 222, 1);
+final Color listColor1 = Color.fromRGBO(255, 185, 147, 1);
+final Color listColor2 = Color.fromRGBO(254, 203, 119, 1);
+final Color listColor3 = Color.fromRGBO(136, 266, 247, 1);
+final Color iconComboColor = Color.fromRGBO(68, 205, 137, 1);
+final Color addtoCardColor = Color.fromRGBO(43, 200, 122, 1);
+final Color totalColor = Color.fromRGBO(27, 27, 37, 1);
 
 /* Image */
 
@@ -38,4 +48,7 @@ final String navigatorBottom3 = 'assets/sides.png';
 final String navigatorBottom4 = 'assets/drink.png';
 
 /* Image Url */
-final String avatarImageUrl = "https://www.churchs.com/wp-content/themes/churchs-web/static/img/churchs-logo-primary-af59e02bc2.png";
+final String avatarImageUrl = "https://static.wixstatic.com/media/4dc520_da856960ddf14f5c8a49b4443b16f59b~mv2.jpg";
+
+
+/* Class Data */

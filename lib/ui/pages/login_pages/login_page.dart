@@ -18,8 +18,10 @@ class LoginPageParent extends StatefulWidget {
 }
 
 class _LoginPageParentState extends State<LoginPageParent> {
-  TextEditingController controllerEmail = TextEditingController(text: "quocbao@gmail.com");
-  TextEditingController controllerPassword = TextEditingController(text: "123456");
+  TextEditingController controllerEmail =
+      TextEditingController(text: "quocbao@gmail.com");
+  TextEditingController controllerPassword =
+      TextEditingController(text: "123456");
   GlobalKey loginGlobalKey = GlobalKey();
   bool isHide = true;
 
@@ -235,7 +237,6 @@ class _LoginPageParentState extends State<LoginPageParent> {
       ),
     );
   }
-
 
   Container buildImageScreen(double getHeight, double getWidth) {
     return Container(

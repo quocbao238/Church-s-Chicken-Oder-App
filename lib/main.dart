@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/auth_bloc/auth_bloc_bloc.dart';
+import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/loading_widget.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/home_pages.dart';
 import 'package:flutter_blocs/ui/pages/intro_pages/intro_page.dart';
-import 'package:flutter_blocs/ui/pages/login_pages/login_page.dart';
 
 import 'blocs/auth_bloc/auth_bloc_bloc.dart';
 import 'repository/user_repository.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarDividerColor: Colors.transparent,
+    statusBarColor: ConfigApp.isShowstatusBarColor ? null : Colors.black,
+    systemNavigationBarColor:
+        ConfigApp.isShowstatusBarColor ? null : Colors.transparent,
+    systemNavigationBarDividerColor:
+        ConfigApp.isShowstatusBarColor ? null : Colors.transparent,
   ));
   runApp(MyApp());
 }
