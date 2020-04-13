@@ -31,7 +31,7 @@ class MyBottomTabs extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 14.0,
-                color: isSelected ? Colors.orange : Colors.black,
+                color: isSelected ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -5,10 +5,10 @@ import 'package:flutter_blocs/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
+import 'package:flutter_blocs/ui/custom_widget/customData.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/comboPage.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/my_bottom_tab.dart';
 import '../../../main.dart';
-import '../../custom_widget/showToast.dart';
 
 class HomePageParent extends StatefulWidget {
   final FirebaseUser user;
@@ -181,9 +181,9 @@ class _HomePageParentState extends State<HomePageParent> {
       child: Stack(
         children: <Widget>[
           currentIndex == 0
-              ? ComboPage()
+              ? PageViews(listName: "combo",)
               : currentIndex == 1
-                  ? Container(color: Colors.blue)
+                  ? PageViews(listName: "family",)
                   : currentIndex == 2
                       ? Container(color: Colors.green)
                       : currentIndex == 3

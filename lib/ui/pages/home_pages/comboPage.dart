@@ -4,16 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/combo_bloc/combo_bloc.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 import 'package:flutter_blocs/ui/custom_widget/customData.dart';
-import 'package:flutter_blocs/ui/custom_widget/showToast.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/comboDetails.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ComboPage extends StatefulWidget {
+class PageViews extends StatefulWidget {
+  final String listName;
+  const PageViews({Key key, this.listName}) : super(key: key);
+
   @override
-  _ComboPageState createState() => _ComboPageState();
+  _PageViewsState createState() => _PageViewsState();
 }
 
-class _ComboPageState extends State<ComboPage> {
+class _PageViewsState extends State<PageViews> {
   GlobalKey globalyComboKey = GlobalKey();
   ScrollController _controller;
   /* Tab Contries Funtion */
@@ -21,6 +23,26 @@ class _ComboPageState extends State<ComboPage> {
   void _onPress(int num) {
     BlocProvider.of<ComboBloc>(globalyComboKey.currentContext)
         .add(SelectContriesEvent(index: num));
+  }
+
+  var list;
+  String namePage = "";
+  @override
+  void initState() {
+    if (widget.listName == "combo") {
+      var list = combos;
+      namePage = "Combos";
+    } else if (widget.listName == "family") {
+      var list = family;
+      namePage = "Family";
+    } else if (widget.listName == "sides") {
+      var list = sides;
+      namePage = "Sides & Sweets";
+    } else if (widget.listName == "drinks") {
+      var list = drinks;
+      namePage = "Drinks";
+    }
+    super.initState();
   }
 
   @override
@@ -35,7 +57,8 @@ class _ComboPageState extends State<ComboPage> {
           if (state is SelectContriesState) {
             currentSelect = state.index;
           } else if (state is FavoriteState) {
-            combos[state.index].favorite = !combos[state.index].favorite;
+            list[state.index].favorite =
+                !list[state.index].favorite;
           } else if (state is GotoDetailPageState) {
             Navigator.of(context)
                 .push(new MaterialPageRoute(builder: (context) {
@@ -56,217 +79,232 @@ class _ComboPageState extends State<ComboPage> {
       double getHeight, double getWidth, double textScaleFactor) {
     return Scaffold(
       key: globalyComboKey,
-      body: Container(
-          margin: EdgeInsets.only(
-            top: getHeight * 0.12,
-            bottom: getHeight * 0.1,
-            left: getWidth * 0.03,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: getHeight,
+            width: getWidth,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.red[500], Colors.orange[200]]),
+            ),
           ),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  nameChurh,
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.abrilFatface(
-                    textStyle: TextStyle(
-                        color: Colors.black,
-                        letterSpacing: 2.0,
-                        fontSize: 26 * textScaleFactor),
-                  ),
-                ),
-                SizedBox(height: getHeight * 0.02),
-                Container(
-                  height: getHeight * 0.05,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15.0),
-                                bottomRight: Radius.circular(15.0),
-                                topRight: Radius.circular(3),
-                                bottomLeft: Radius.circular(3)),
-                            color: containerCombo),
-                        child: Center(
-                          child: Icon(
-                            Icons.compare_arrows,
-                            size: 30.0 * textScaleFactor,
-                            color: iconComboColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: getWidth * 0.02),
-                      Container(
-                        height: getHeight * 0.05,
-                        width: getWidth * 0.72,
-                        child: ListView.builder(
-                          controller: _controller,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: countries?.length ?? 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: getWidth * 0.02),
-                                margin: EdgeInsets.only(right: getWidth * 0.02),
-                                height: getHeight * 0.05,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(15.0),
-                                        bottomRight: Radius.circular(15.0),
-                                        topRight: Radius.circular(3),
-                                        bottomLeft: Radius.circular(3)),
-                                    color: index == currentSelect
-                                        ? containerCombo
-                                        : null),
-                                child: Center(
-                                  child: Text(
-                                    countries[index] ?? "",
-                                    style: GoogleFonts.abrilFatface(
-                                      textStyle: TextStyle(
-                                          color: index == currentSelect
-                                              ? iconComboColor
-                                              : Colors.black,
-                                          letterSpacing: 1.0,
-                                          fontSize: 12 * textScaleFactor),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                _onPress(index);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: getHeight * 0.03),
-                  child: Text(
-                    "The best dishes",
-                    style: GoogleFonts.robotoCondensed(
-                      textStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1.0,
-                        fontSize: 24 * textScaleFactor,
+          Container(
+              margin: EdgeInsets.only(
+                top: getHeight * 0.12,
+                bottom: getHeight * 0.1,
+                left: getWidth * 0.03,
+              ),
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      nameChurh,
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.abrilFatface(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                            fontSize: 26 * textScaleFactor),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  height: getHeight * 0.50,
-                  width: getWidth * 0.99,
-                  margin: EdgeInsets.only(left: getHeight * 0.01),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: combos?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        child: Container(
-                          width: getWidth * 0.70,
-                          height: getHeight * 0.5,
-                          margin: EdgeInsets.only(right: getWidth * 0.08),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(40),
-                              bottomLeft: Radius.circular(40),
-                              topLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(5),
+                    SizedBox(height: getHeight * 0.02),
+                    Container(
+                      height: getHeight * 0.05,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15.0),
+                                    bottomRight: Radius.circular(15.0),
+                                    topRight: Radius.circular(3),
+                                    bottomLeft: Radius.circular(3)),
+                                color: Colors.white.withOpacity(0.9)),
+                            child: Center(
+                              child: Icon(Icons.compare_arrows,
+                                  size: 30.0 * textScaleFactor,
+                                  color: Colors.black),
                             ),
-                            image: DecorationImage(
-                                image: CacheImage(combos[index].image),
-                                fit: BoxFit.fill),
                           ),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                bottom: getHeight * 0,
-                                left: getWidth * 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<ComboBloc>(
-                                            globalyComboKey.currentContext)
-                                        .add(FavoriteEvent(index: index));
-                                  },
+                          SizedBox(width: getWidth * 0.02),
+                          Container(
+                            height: getHeight * 0.05,
+                            width: getWidth * 0.72,
+                            child: ListView.builder(
+                              controller: _controller,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: countries?.length ?? 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
                                   child: Container(
-                                    width: getWidth * 0.15,
-                                    height: getWidth * 0.15,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: getWidth * 0.02),
+                                    margin:
+                                        EdgeInsets.only(right: getWidth * 0.02),
+                                    height: getHeight * 0.05,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(30),
-                                          bottomLeft: Radius.circular(30)),
-                                      color: Colors.grey[300],
-                                    ),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15.0),
+                                            bottomRight: Radius.circular(15.0),
+                                            topRight: Radius.circular(3),
+                                            bottomLeft: Radius.circular(3)),
+                                        color: index == currentSelect
+                                            ? Colors.white.withOpacity(0.9)
+                                            : null),
                                     child: Center(
-                                      child: Icon(
-                                        combos[index]?.favorite ?? false
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: combos[index]?.favorite ?? false
-                                            ? Colors.red
-                                            : Colors.black,
-                                        size: 24.0 * textScaleFactor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: getHeight * 0.02,
-                                right: getWidth * 0,
-                                child: Container(
-                                  width: getWidth * 0.38,
-                                  height: getWidth * 0.4,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "\$ ${combos[index].prince.toString()}0",
-                                        textAlign: TextAlign.left,
+                                      child: Text(
+                                        countries[index] ?? "",
                                         style: GoogleFonts.abrilFatface(
                                           textStyle: TextStyle(
-                                              color: Colors.white,
-                                              letterSpacing: 1.5,
-                                              fontSize: 30 * textScaleFactor),
-                                        ),
-                                      ),
-                                      Text(
-                                        combos[index].name,
-                                        textAlign: TextAlign.left,
-                                        style: GoogleFonts.abrilFatface(
-                                          textStyle: TextStyle(
-                                              color: Colors.white,
+                                              color: index == currentSelect
+                                                  ? Colors.black
+                                                  : Colors.white,
                                               fontSize: 15 * textScaleFactor),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
+                                  onTap: () {
+                                    _onPress(index);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: getHeight * 0.03),
+                      child: Text(
+                        "The best dishes $namePage",
+                        style: GoogleFonts.abrilFatface(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.0,
+                            fontSize: 24 * textScaleFactor,
                           ),
                         ),
-                        onTap: () {
-                          BlocProvider.of<ComboBloc>(
-                                  globalyComboKey.currentContext)
-                              .add(GotoDetailPageEvent(index: index));
+                      ),
+                    ),
+                    Container(
+                      height: getHeight * 0.50,
+                      width: getWidth * 0.99,
+                      margin: EdgeInsets.only(left: getHeight * 0.01),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: list?.length ?? 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: Container(
+                              width: getWidth * 0.70,
+                              height: getHeight * 0.5,
+                              margin: EdgeInsets.only(right: getWidth * 0.08),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(40),
+                                  bottomLeft: Radius.circular(40),
+                                  topLeft: Radius.circular(5),
+                                  bottomRight: Radius.circular(5),
+                                ),
+                                image: DecorationImage(
+                                    image: CacheImage(list[index].image),
+                                    fit: BoxFit.fill),
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    bottom: getHeight * 0,
+                                    left: getWidth * 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        BlocProvider.of<ComboBloc>(
+                                                globalyComboKey.currentContext)
+                                            .add(FavoriteEvent(index: index));
+                                      },
+                                      child: Container(
+                                        width: getWidth * 0.15,
+                                        height: getWidth * 0.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(30),
+                                              bottomLeft: Radius.circular(30)),
+                                          color: Colors.grey[300],
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            list[index]?.favorite ?? false
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color:
+                                                list[index]?.favorite ?? false
+                                                    ? Colors.red
+                                                    : Colors.black,
+                                            size: 24.0 * textScaleFactor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: getHeight * 0.02,
+                                    right: getWidth * 0,
+                                    child: Container(
+                                      width: getWidth * 0.38,
+                                      height: getWidth * 0.4,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "\$ ${list[index].prince.toString()}0",
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.abrilFatface(
+                                              textStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  letterSpacing: 1.5,
+                                                  fontSize:
+                                                      30 * textScaleFactor),
+                                            ),
+                                          ),
+                                          Text(
+                                            combos[index].name,
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.abrilFatface(
+                                              textStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize:
+                                                      15 * textScaleFactor),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              BlocProvider.of<ComboBloc>(
+                                      globalyComboKey.currentContext)
+                                  .add(GotoDetailPageEvent(index: index));
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
-                )
-              ],
-            ),
-          )),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ],
+      ),
     );
   }
 }
