@@ -5,9 +5,11 @@ import 'package:flutter_blocs/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_blocs/config/configapp.dart';
 import 'package:flutter_blocs/repository/user_repository.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
-import 'package:flutter_blocs/ui/custom_widget/customData.dart';
-import 'package:flutter_blocs/ui/pages/home_pages/comboPage.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/combos/comboPage.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/drinks/drinkPage.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/family/familyPage.dart';
 import 'package:flutter_blocs/ui/pages/home_pages/my_bottom_tab.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/sides/sidesPage.dart';
 import '../../../main.dart';
 
 class HomePageParent extends StatefulWidget {
@@ -21,6 +23,8 @@ class HomePageParent extends StatefulWidget {
 class _HomePageParentState extends State<HomePageParent> {
   GlobalKey homeGlobalKey = GlobalKey();
 
+  /* Page Controller */
+  PageController _pageController;
   /* List Widget */
   List<Widget> pages;
   /* Page view Index */
@@ -62,7 +66,7 @@ class _HomePageParentState extends State<HomePageParent> {
 
   @override
   Widget build(BuildContext context) {
-    // _definePages();
+    _definePages();
     double getHeight = MediaQuery.of(context).size.height;
     double getWidth = MediaQuery.of(context).size.width;
     return BlocProvider(
@@ -131,7 +135,6 @@ class _HomePageParentState extends State<HomePageParent> {
                   width: getWidth * 0.1,
                   child: ClipOval(
                     child: Image.network(
-                      // widget.user?.photoUrl ??
                       "https://avatars2.githubusercontent.com/u/51372227?s=460&u=10b00a76a16feb0edadd49f31c7d2805c2663239&v=4",
                       fit: BoxFit.cover,
                     ),
@@ -178,20 +181,17 @@ class _HomePageParentState extends State<HomePageParent> {
 
   Positioned buildPageView() {
     return Positioned.fill(
-      child: Stack(
-        children: <Widget>[
-          currentIndex == 0
-              ? PageViews(listName: "combo",)
-              : currentIndex == 1
-                  ? PageViews(listName: "family",)
-                  : currentIndex == 2
-                      ? Container(color: Colors.green)
-                      : currentIndex == 3
-                          ? Container(color: Colors.amber)
-                          : SizedBox(),
-        ],
-      ),
+      child: pages[currentIndex],
     );
+  }
+
+  _definePages() {
+    pages = [
+      ComboPage(),
+      FamilyPage(),
+      SidesPage(),
+      DrinkPage(),
+    ];
   }
 
   void _onMenuPressed({BuildContext context, double getHeight}) {

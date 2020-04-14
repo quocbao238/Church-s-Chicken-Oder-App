@@ -19,7 +19,7 @@ I have developed this app all by myself and I would be happy to share the APK of
 
 - Home Church's Chicken
 
-<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot7.png" width="200"/> 
+<img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot7.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot8.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot9.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot10.png" width="200"/>
 
 
 #### Prequisites

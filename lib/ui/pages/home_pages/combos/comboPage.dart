@@ -4,18 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/combo_bloc/combo_bloc.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 import 'package:flutter_blocs/ui/custom_widget/customData.dart';
-import 'package:flutter_blocs/ui/pages/home_pages/comboDetails.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/combos/comboDetails.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PageViews extends StatefulWidget {
+class ComboPage extends StatefulWidget {
   final String listName;
-  const PageViews({Key key, this.listName}) : super(key: key);
+  const ComboPage({Key key, this.listName}) : super(key: key);
 
   @override
-  _PageViewsState createState() => _PageViewsState();
+  _ComboPageState createState() => _ComboPageState();
 }
 
-class _PageViewsState extends State<PageViews> {
+class _ComboPageState extends State<ComboPage> {
   GlobalKey globalyComboKey = GlobalKey();
   ScrollController _controller;
   /* Tab Contries Funtion */
@@ -25,25 +25,8 @@ class _PageViewsState extends State<PageViews> {
         .add(SelectContriesEvent(index: num));
   }
 
-  var list;
-  String namePage = "";
-  @override
-  void initState() {
-    if (widget.listName == "combo") {
-      var list = combos;
-      namePage = "Combos";
-    } else if (widget.listName == "family") {
-      var list = family;
-      namePage = "Family";
-    } else if (widget.listName == "sides") {
-      var list = sides;
-      namePage = "Sides & Sweets";
-    } else if (widget.listName == "drinks") {
-      var list = drinks;
-      namePage = "Drinks";
-    }
-    super.initState();
-  }
+  var list = combos;
+  String namePage = "Combos";
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +40,7 @@ class _PageViewsState extends State<PageViews> {
           if (state is SelectContriesState) {
             currentSelect = state.index;
           } else if (state is FavoriteState) {
-            list[state.index].favorite =
-                !list[state.index].favorite;
+            list[state.index].favorite = !list[state.index].favorite;
           } else if (state is GotoDetailPageState) {
             Navigator.of(context)
                 .push(new MaterialPageRoute(builder: (context) {
@@ -189,7 +171,7 @@ class _PageViewsState extends State<PageViews> {
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 1.0,
-                            fontSize: 24 * textScaleFactor,
+                            fontSize: 20 * textScaleFactor,
                           ),
                         ),
                       ),
@@ -254,37 +236,39 @@ class _PageViewsState extends State<PageViews> {
                                     ),
                                   ),
                                   Positioned(
-                                    top: getHeight * 0.02,
-                                    right: getWidth * 0,
+                                    bottom: getHeight * 0.005,
+                                    right: getWidth * 0.02,
                                     child: Container(
-                                      width: getWidth * 0.38,
-                                      height: getWidth * 0.4,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "\$ ${list[index].prince.toString()}0",
-                                            textAlign: TextAlign.left,
-                                            style: GoogleFonts.abrilFatface(
-                                              textStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  letterSpacing: 1.5,
-                                                  fontSize:
-                                                      30 * textScaleFactor),
-                                            ),
-                                          ),
-                                          Text(
-                                            combos[index].name,
-                                            textAlign: TextAlign.left,
-                                            style: GoogleFonts.abrilFatface(
-                                              textStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize:
-                                                      15 * textScaleFactor),
-                                            ),
-                                          ),
-                                        ],
+                                      child: Text(
+                                        "\$ ${list[index].prince.toString()}0",
+                                        textAlign: TextAlign.left,
+                                        style: GoogleFonts.abrilFatface(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              letterSpacing: 1.5,
+                                              fontSize: 30 * textScaleFactor),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: getHeight * 0.015,
+                                    right: getWidth * 0.02,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Colors.grey.withOpacity(0.2)),
+                                      width: getWidth * 0.3,
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        list[index].name,
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.abrilFatface(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20 * textScaleFactor),
+                                        ),
                                       ),
                                     ),
                                   ),
