@@ -48,9 +48,7 @@ class _IntroPageState extends State<IntroPage> {
         scrollDirection: Axis.horizontal,
         controller: _pageController,
         onPageChanged: (int _selectedIndex) {
-          setState(() {
-            selectedIndex = _selectedIndex;
-          });
+          selectedIndex = _selectedIndex;
         },
         children: <Widget>[
           //Slider 1
@@ -131,8 +129,8 @@ class _IntroPageState extends State<IntroPage> {
             //Button
             InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                     MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
                   return LoginPageParent(
                     userRepository: widget.userRepository,
                   );

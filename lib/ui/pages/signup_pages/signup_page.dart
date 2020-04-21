@@ -67,9 +67,9 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
               children: <Widget>[
                 buildImageScreen(getHeight, getWidth),
                 buildAppbar(getHeight, getWidth),
-                buildBackSignIn(getHeight, getWidth),
                 buildCenterPage(context, getHeight, getWidth),
                 buildBottomSignIn(context, getHeight, getWidth),
+                buildBackSignIn(getHeight, getWidth),
                 state is UserRegLoading ? LoadingWidget() : SizedBox(),
               ],
             ),
@@ -163,22 +163,17 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
 
   Positioned buildBackSignIn(double getHeight, double getWidth) {
     return Positioned(
-      top: getWidth * 0.05,
-      left: getWidth * 0.01,
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            print("On Tap");
-            Navigator.pop(context);
-          });
-        },
-        child: Container(
-            width: getWidth * 0.15,
-            height: getWidth * 0.15,
-            child: Center(
-                child:
-                    Icon(Icons.arrow_back, color: Colors.white, size: 30.0))),
-      ),
+      top: getWidth * 0.08,
+      left: getWidth * 0.04,
+      child: IconButton(
+          onPressed: () {
+            setState(() {
+              print("ONTAP");
+              Navigator.pop(context);
+            });
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 40.0)),
+      // ),
     );
   }
 

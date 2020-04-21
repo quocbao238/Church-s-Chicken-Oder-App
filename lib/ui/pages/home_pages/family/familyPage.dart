@@ -1,11 +1,13 @@
-import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/combo_bloc/combo_bloc.dart';
+import 'package:flutter_blocs/ui/custom_widget/cacheImage.dart';
 import 'package:flutter_blocs/ui/custom_widget/customConfig.dart';
 import 'package:flutter_blocs/ui/custom_widget/customData.dart';
-import 'package:flutter_blocs/ui/pages/home_pages/combos/comboDetails.dart';
+import 'package:flutter_blocs/ui/pages/home_pages/detailsPage.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../custom_widget/customData.dart';
 
 class FamilyPage extends StatefulWidget {
   @override
@@ -42,9 +44,7 @@ class _FamilyPageState extends State<FamilyPage> {
           } else if (state is GotoDetailPageState) {
             Navigator.of(context)
                 .push(new MaterialPageRoute(builder: (context) {
-              return ComboDetailsPage(
-                argument: state.index,
-              );
+              return DetailsPage(argument: state.index, list: family);
             }));
           }
         },
@@ -194,12 +194,16 @@ class _FamilyPageState extends State<FamilyPage> {
                                   topLeft: Radius.circular(5),
                                   bottomRight: Radius.circular(5),
                                 ),
-                                image: DecorationImage(
-                                    image: CacheImage(list[index].image),
-                                    fit: BoxFit.fill),
+                                // image: DecorationImage(
+                                //     image: CacheImage(list[index].image),
+                                //     fit: BoxFit.fill),
                               ),
                               child: Stack(
                                 children: <Widget>[
+                                  Positioned.fill(
+                                      child: CacheNetworkImage(
+                                    imageUrl: list[index].image,
+                                  )),
                                   Positioned(
                                     bottom: getHeight * 0,
                                     left: getWidth * 0,

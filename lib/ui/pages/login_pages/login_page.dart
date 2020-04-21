@@ -43,7 +43,7 @@ class _LoginPageParentState extends State<LoginPageParent> {
             showToast(context: context, msg: state.message);
           } else if (state is GotoSignUpPageState) {
             Navigator.of(context).push(
-              MaterialPageRoute(
+              new MaterialPageRoute(
                   builder: (context) => SignUpPageParent(
                         userRepository: widget.userRepository,
                       )),
