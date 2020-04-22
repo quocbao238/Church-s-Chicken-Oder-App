@@ -45,8 +45,8 @@ I have developed this app all by myself and I would be happy to share the APK of
 
 If you have any copyright issues please contact us via email: baobondev@gmail.com
 
-### Documenttation source
-
+### Documenttation style & source
+- https://dribbble.com/shots/8369400-Groceries-Shopping-Mobile-App
 - https://github.com/newajthevillager/FirebaseUserAuthentication---BLoC
 
 ## Getting Started
