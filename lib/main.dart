@@ -14,8 +14,8 @@ import 'repository/user_repository.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: ConfigApp.isShowstatusBarColor ? null : Colors.black,
-    systemNavigationBarColor:
-        ConfigApp.isShowstatusBarColor ? null : Colors.transparent,
+    systemNavigationBarColor: Colors.black,
+        // ConfigApp.isShowstatusBarColor ? null : Colors.transparent,
     systemNavigationBarDividerColor:
         ConfigApp.isShowstatusBarColor ? null : Colors.transparent,
   ));
