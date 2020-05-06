@@ -1,19 +1,15 @@
 ## Church's Chicken App
-
-Church's Chicken App help people oder fried chicken from Church's Chicken
-
+* Church's Chicken App help people oder fried chicken from Church's Chicken
+* My Flutter design challenge 
 #### Feature
-
-This source code support to do learn Flutter ,using images taken from Church's Chicken (www.churchs.com)
-I have developed this app all by myself and I would be happy to share the APK of the app for testing purposes.
-
+* This source code support to do project in school and learn Flutter, it use images taken from Church's Chicken (www.churchs.com)
+* I have developed this app all by myself and I would be happy to share the APK of the app for testing purposes.
 #### Dowload
 [![Try in PWD](https://i.pinimg.com/originals/01/d9/53/01d95329a419f52751f875daf9d0f1aa.png)](https://drive.google.com/open?id=1BWEaOilSd8OrOOeZM_4cBjCsVK4jK_zs)
-
 #### Screenshot
 
  - Slider Church's Chicken
-
+ 
 <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot1.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot2.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot3.png" width="200"/> <img src="https://raw.githubusercontent.com/baobon/Church-s-Chicken-Oder-App/master/screenshot/screenshot4.png" width="200"/>
 
  - Login & Resgiter Church's Chicken
@@ -43,6 +39,8 @@ I have developed this app all by myself and I would be happy to share the APK of
 - flutter_zoom_drawer
 - cache_image
 
+### Android Version
+7.0 or up
 
 ### Contact
 
