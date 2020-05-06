@@ -1,6 +1,6 @@
 ## Church's Chicken App
 * Church's Chicken App help people oder fried chicken from Church's Chicken
-* My Flutter desig challenge 
+* My Flutter design challenge 
 #### Feature
 * This source code support to do project in school and learn Flutter, it use images taken from Church's Chicken (www.churchs.com)
 * I have developed this app all by myself and I would be happy to share the APK of the app for testing purposes.
