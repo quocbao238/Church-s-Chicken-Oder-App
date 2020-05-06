@@ -49,6 +49,7 @@ class _IntroPageState extends State<IntroPage> {
         controller: _pageController,
         onPageChanged: (int _selectedIndex) {
           selectedIndex = _selectedIndex;
+          setState(() {});
         },
         children: <Widget>[
           //Slider 1
@@ -129,8 +130,7 @@ class _IntroPageState extends State<IntroPage> {
             //Button
             InkWell(
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                   return LoginPageParent(
                     userRepository: widget.userRepository,
                   );
@@ -140,16 +140,12 @@ class _IntroPageState extends State<IntroPage> {
                 width: getWidth * 0.4,
                 height: getHeight * 0.1,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.amber, width: 3),
-                    borderRadius: BorderRadius.circular(radius / 2)),
+                    border: Border.all(color: Colors.amber, width: 3), borderRadius: BorderRadius.circular(radius / 2)),
                 child: Center(
                   child: Text(
                     btnSilder1,
                     style: GoogleFonts.bitter(
-                        textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
+                        textStyle: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -204,10 +200,7 @@ class _IntroPageState extends State<IntroPage> {
                       Text(
                         txtSlider21.toUpperCase(),
                         style: GoogleFonts.abrilFatface(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              letterSpacing: 2.0,
-                              fontSize: 65.0),
+                          textStyle: TextStyle(color: Colors.white, letterSpacing: 2.0, fontSize: 65.0),
                         ),
                       ),
                       SizedBox(height: 16.0),
@@ -227,16 +220,12 @@ class _IntroPageState extends State<IntroPage> {
               width: getWidth * 0.5,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.amber, width: 3),
-                  borderRadius: BorderRadius.circular(radius / 2)),
+                  border: Border.all(color: Colors.amber, width: 3), borderRadius: BorderRadius.circular(radius / 2)),
               child: Center(
                 child: Text(
                   btnSilder2,
                   style: GoogleFonts.bitter(
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold)),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold)),
                 ),
               ),
             )
@@ -317,16 +306,12 @@ class _IntroPageState extends State<IntroPage> {
               width: getWidth * 0.8,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.amber, width: 3),
-                  borderRadius: BorderRadius.circular(radius / 2)),
+                  border: Border.all(color: Colors.amber, width: 3), borderRadius: BorderRadius.circular(radius / 2)),
               child: Center(
                 child: Text(
                   btnSilder3,
                   style: GoogleFonts.bitter(
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold)),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                 ),
               ),
             )
@@ -407,16 +392,12 @@ class _IntroPageState extends State<IntroPage> {
               width: getWidth * 0.6,
               height: getHeight * 0.1,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.amber, width: 3),
-                  borderRadius: BorderRadius.circular(radius / 2)),
+                  border: Border.all(color: Colors.amber, width: 3), borderRadius: BorderRadius.circular(radius / 2)),
               child: Center(
                 child: Text(
                   btnSilder4,
                   style: GoogleFonts.bitter(
-                      textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold)),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                 ),
               ),
             )
@@ -455,18 +436,12 @@ class _IntroPageState extends State<IntroPage> {
                     Text(
                       "Order".toUpperCase(),
                       style: GoogleFonts.bitter(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
+                          textStyle: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
                     ),
                     Text(
                       "Now".toUpperCase(),
                       style: GoogleFonts.bitter(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold)),
+                          textStyle: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
                     ),
                     SizedBox(height: 2.0),
                     Container(
