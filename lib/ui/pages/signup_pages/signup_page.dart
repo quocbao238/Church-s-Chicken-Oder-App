@@ -1,4 +1,4 @@
-import 'package:circular_check_box/circular_check_box.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blocs/blocs/reg_bloc/userreg_bloc.dart';
@@ -25,7 +25,7 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
   TextEditingController passCntrlr = TextEditingController();
   GlobalKey signupGlobalKey = GlobalKey();
   UserRepository userRepository;
-  bool isChecked = false;
+  bool isChecked = true;
   bool isHide = true;
 
   @override
@@ -276,39 +276,39 @@ class _SignUpPageParentState extends State<SignUpPageParent> {
                 keyboardType: TextInputType.visiblePassword,
               ),
             ),
-            Container(
-              height: getHeight * 0.06,
-              margin: EdgeInsets.only(right: 25.0, left: 25.0),
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                      flex: 2,
-                      child: CircularCheckBox(
-                          activeColor: Colors.blue,
-                          disabledColor: Colors.black,
-                          inactiveColor: Colors.black,
-                          value: isChecked,
-                          onChanged: (bool x) {
-                            setState(() {
-                              isChecked = !isChecked;
-                            });
-                          })),
-                  Flexible(
-                    flex: 8,
-                    child: Container(
-                      child: Text(
-                        "I agree to the terms and privacy policy",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            // Container(
+            //   height: getHeight * 0.06,
+            //   margin: EdgeInsets.only(right: 25.0, left: 25.0),
+            //   child: Row(
+            //     children: <Widget>[
+            //       Flexible(
+            //           flex: 2,
+            //           child: CircularCheckBox(
+            //               activeColor: Colors.blue,
+            //               disabledColor: Colors.black,
+            //               inactiveColor: Colors.black,
+            //               value: isChecked,
+            //               onChanged: (bool x) {
+            //                 setState(() {
+            //                   isChecked = !isChecked;
+            //                 });
+            //               })),
+            //       Flexible(
+            //         flex: 8,
+            //         child: Container(
+            //           child: Text(
+            //             "I agree to the terms and privacy policy",
+            //             style: TextStyle(
+            //               color: Colors.white,
+            //               fontWeight: FontWeight.bold,
+            //               fontSize: 14.0,
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
             GestureDetector(
               onTap: () {
                 FocusScope.of(context).requestFocus(new FocusNode());
