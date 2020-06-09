@@ -29,10 +29,8 @@ class _IntroPageState extends State<IntroPage> {
         children: <Widget>[
           // Slider
           buildSlider(getHeight, getWidth),
-
           // Indicator
           buildIndicator(getWidth),
-
           // Appbar
           buildAppbar(getHeight, getWidth)
         ],

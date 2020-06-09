@@ -219,7 +219,8 @@ class _FamilyPageState extends State<FamilyPage> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(30),
-                                              bottomLeft: Radius.circular(30)),
+                                              // bottomLeft: Radius.circular(30)
+                                              ),
                                           color: Colors.grey[300],
                                         ),
                                         child: Center(

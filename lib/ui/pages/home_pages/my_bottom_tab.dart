@@ -25,7 +25,7 @@ class MyBottomTabs extends StatelessWidget {
               width: MediaQuery.of(context).size.height * 0.05,
               child: Image.asset(icon),
             ),
-            SizedBox(height: 8.0),
+            SizedBox(height: 4.0),
             //text
             Text(
               text,

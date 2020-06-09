@@ -198,15 +198,16 @@ class _HomePageParentState extends State<HomePageParent> {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        color: Color(0xFF737373),
-        height: getHeight * 0.2,
+        // color: Color(0xFF737373),
+      color: Colors.transparent,
+        height: getHeight * 0.3,
         child: Container(
           child: _buildMenuWidgetBotom(context),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.red,
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
+              topLeft: const Radius.circular(15.0),
+              topRight: const Radius.circular(15.0),
             ),
           ),
         ),
@@ -219,100 +220,113 @@ class _HomePageParentState extends State<HomePageParent> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(
-          flex: 4,
-          child: ListTile(
-            title: Text(
-              'Help and Support',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) => new AlertDialog(
-                  title: new Text('Notification'),
-                  content: new Text('The feature are improving'),
-                ),
-              );
-            },
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Center(
-            child: Divider(height: 2.0, color: Colors.black),
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: ListTile(
-            title: Text(
-              'Privacy Settings',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) => new AlertDialog(
-                  title: new Text('Notification'),
-                  content: new Text('The feature are improving'),
-                ),
-              );
-            },
-          ),
-        ),
-        Expanded(
-            flex: 1,
-            child: Center(
-              child: Divider(height: 2.0, color: Colors.black),
-            )),
-        Expanded(
-          flex: 4,
-          child: ListTile(
-            title: Text(
-              'Log out',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: new Text('Are you sure?'),
-                  content: new Text('Do you want to Log out?'),
-                  actions: <Widget>[
-                    new FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: new Text('No'),
-                    ),
-                    new FlatButton(
-                      onPressed: () {
-                        BlocProvider.of<HomeBloc>(homeGlobalKey.currentContext)
-                            .add(LogOutEvent());
 
-                        Navigator.pop(context);
-                      },
-                      child: new Text('Yes'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
         Expanded(
-          flex: 1,
+          flex: 4,
           child: Center(
-            child: Divider(height: 2.0, color: Colors.black),
+            child: ListTile(
+              title: Text(
+                'Help and Support',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) => new AlertDialog(
+                    title: new Text('Notification'),
+                    content: new Text('The feature are improving'),
+                  ),
+                );
+              },
+            ),
           ),
         ),
+        Divider(height: 2.0, color: Colors.black),
+
+        // Expanded(
+        //   flex: 1,
+        //   child: Center(
+        //     child: Divider(height: 2.0, color: Colors.black),
+        //   ),
+        // ),
+        Expanded(
+          flex: 4,
+          child: Center(
+            child: ListTile(
+              title: Text(
+                'Privacy Settings',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) => new AlertDialog(
+                    title: new Text('Notification'),
+                    content: new Text('The feature are improving'),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        Divider(height: 2.0, color: Colors.black),
+        // Expanded(
+        //     flex: 1,
+        //     child: Center(
+        //       child: Divider(height: 2.0, color: Colors.black),
+        //     )),
+        Expanded(
+          flex: 4,
+          child: Center(
+            child: ListTile(
+              title: Text(
+                'Log out',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: new Text('Are you sure?'),
+                    content: new Text('Do you want to Log out?'),
+                    actions: <Widget>[
+                      new FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: new Text('No'),
+                      ),
+                      new FlatButton(
+                        onPressed: () {
+                          BlocProvider.of<HomeBloc>(
+                                  homeGlobalKey.currentContext)
+                              .add(LogOutEvent());
+
+                          Navigator.pop(context);
+                        },
+                        child: new Text('Yes'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        Divider(height: 2.0, color: Colors.black),
+
+        // Expanded(
+        //   flex: 1,
+        //   child: Center(
+        //     child: Divider(height: 2.0, color: Colors.black),
+        //   ),
+        // ),
       ],
     );
   }
